@@ -10,3 +10,19 @@
               <a class="navbar-brand" href="/" style=" font-size:25px"> PitchIn</a>
   
       </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+           {% if current_user.is_authenticated %}
+
+               <li><a href="/">{{current_user.username.capitalize()}}</a></li>
+               <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
+
+           {%else%}
+               <li><a href="{{url_for('auth.login')}}">Sign in</a></li>
+
+           {%endif%}
+        </ul>
+   </div>
+
+</div>
+</div>

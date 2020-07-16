@@ -31,7 +31,9 @@ class User(UserMixin,db.Model):
     pitches = db.relationship("Pitch", backref="user", lazy = "dynamic")
     comment = db.relationship("Comments", backref="user", lazy = "dynamic")
     vote = db.relationship("Votes", backref="user", lazy = "dynamic")
-    
+
+
+    # securing passwords
     @property
     def password(self):
         raise AttributeError('You can not read the password Attribute')
@@ -46,6 +48,7 @@ class User(UserMixin,db.Model):
     def __repr__(self):
         return f'User {self.username}'
 
+#category model
 class PitchCategory(db.Model):
 
     __tablename__ = 'categories'
@@ -96,6 +99,8 @@ class Pitch(db.Model):
         pitches = Pitch.query.filter_by(category_id=id).all()
         return pitches
 
+
+# comments
 class Comments(db.Model):
     '''User comment model for each pitch '''
 
@@ -126,8 +131,8 @@ class Comments(db.Model):
 class Votes(db.Model):
     '''class to model votes '''
     __tablename__='votes'
-    
-     id = db.Column(db. Integer, primary_key=True)
+
+    id = db.Column(db. Integer, primary_key=True)
     vote = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
@@ -140,6 +145,3 @@ class Votes(db.Model):
     def get_votes(cls,user_id,pitches_id):
         votes = Vote.query.filter_by(user_id=user_id, pitches_id=pitches_id).all()
         return votes
-
-
-    

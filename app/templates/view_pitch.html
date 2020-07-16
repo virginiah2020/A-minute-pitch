@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+ {% import 'macros.html' as macro%}
+
+{%block styles%}
+  {{ super() }}
+{%endblock%}
+
+<!-- content block -->
+{% block content %}
+<div class="container">
+     <div class="col-md-12">
+        <p class="text-left"><a class="btn btn-primary" href="{{url_for('.new_pitch',id=pitches.category_id)}}">Post Pitch</a></p>
+        <div class="well" style="background-color:lightblue">
+          <h3>{{pitches.content}}</h3>
+        </div>
+    <table>
+
+        <td><h4 class="text-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Comments<a class="btn btn-primary" href="{{url_for('.new_comment',id=pitches.id)}}"> Add a comment</a></h4></td>
+    </tr>
+  </table>
+
+
+
+ {% if comment %}
+ {{ macro.displaySpecificPitch(comment)}}
+ <hr>
+ {%else%}
+ <h3 class="text-center">No comments </h3>
+ {% endif %}
+</div>
+
+</div>
+</div>
+
+{% endblock %}

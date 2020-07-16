@@ -41,23 +41,23 @@ def category(id):
     pitches=Pitch.get_pitches(id)
     return render_template('category.html', pitches=pitches, category=category)
 
-# @main.route('/add/category', methods=['GET','POST'])
-# @login_required
-# def new_category():
-#     '''
-#     View new group route function that returns a page with a form to create a category
-#     '''
-#     form = CategoryForm()
+@main.route('/add/category', methods=['GET','POST'])
+@login_required
+def new_category():
+    '''
+    View new group route function that returns a page with a form to create a category
+    '''
+    form = CategoryForm()
 
-#     if form.validate_on_submit():
-#         name = form.name.data
-#         new_category = PitchCategory(name=name)
-#         new_category.save_category()
+    if form.validate_on_submit():
+        name = form.name.data
+        new_category = PitchCategory(name=name)
+        new_category.save_category()
 
-#         return redirect(url_for('.index'))
+        return redirect(url_for('.index'))
 
-#     title = 'New category'
-#     return render_template('new_category.html', category_form = form,title=title)
+    title = 'New category'
+    return render_template('new_category.html', category_form = form,title=title)
 @main.route('/view-pitch/<int:id>', methods=['GET', 'POST'])
 @login_required
 def view_pitch(id):
@@ -72,16 +72,16 @@ def view_pitch(id):
         abort(404)
     #
     comment = Comments.get_comments(id)
-    return render_template('view-pitch.html', pitches=pitches, comment=comment, category_id=id)
+    return render_template('view_pitch.html', pitches=pitches, comment=comment, category_id=id)
 
 
 #adding a comment
 @main.route('/write_comment/<int:id>', methods=['GET', 'POST'])
 @login_required
-def post_comment(id):
+def new_comment(id):
     ''' function to post comments '''
     form = CommentForm()
-    title = 'post comment'
+    title = 'new comment'
     pitches = Pitch.query.filter_by(id=id).first()
     
     if pitches is None:
@@ -93,7 +93,7 @@ def post_comment(id):
         new_comment.save_comment()
         return redirect(url_for('.view_pitch', id=pitches.id))
 
-    return render_template('post_comment.html', comment_form=form, title=title)
+    return render_template('new_comment.html', comment_form=form, title=title)
 
 @main.route('/pitch/upvote/<int:id>')
 @login_required
@@ -136,3 +136,14 @@ def vote_count(id):
     total_votes = votes.count()
 
     return total_votes
+
+# @main.route('/pitch/downvote/<int:id>')
+# def vote_count(id):
+#     '''
+#     View function to return the total vote count per pitch
+#     '''
+#     votes = Votes.query.filter_by(user_id=user_id, line_id=line_id).all()
+
+#     total_votes = votes.count()
+
+#     return total_votes

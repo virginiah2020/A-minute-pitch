@@ -1,33 +1,21 @@
-{% extends 'base.html' %}
-{% import 'bootstrap/wtf.html' as wtf%}
-<!-- Styles block -->
-{% block styles%}
-    {{ super() }}
+{% extends 'base.html' %} {% import 'macros.html' as macro%}
 
-{% endblock %}
-
-<!-- Content block -->
+<!-- content block -->
 {% block content %}
-    <title> {{ title }} </title>
+  <div class=" col-md-10 col-md-offset-1 col-sm-12">
+      <h3 class="text-center">{{category.name|upper}}</h3>
+       <a class="btn btn-primary text-center text-danger " href="/category/new-pitch/{{category.id}}"> Post a Pitch</a>
+       <HR>
+  </div>
 
-    <div class="container">
-
-        <div class="row">
-
-            <div class="col-md-2 col-lg-2">
-
-            </div>
-
-            <div class=" col-xs-12 col-sm-12 col-md-8 col-lg-8 create-group">
-
-                {{ wtf.quick_form(category_form) }}
-
-            </div>
-
-            <div class="col-md-2 col-lg-2">
-
-            </div>
-
+  {% if pitches %}
+      <div class="col-sm-12 col-md-8">
+          {{ macro.displayPitches(pitches)}}
+      </div>
+  {%else%}
+        <div class="well">
+          <h4 style="padding:10%; text-align:center; font-size:50px">WELCOME JUST POST A PITCH!!!</h4>
         </div>
-    </div>
+  {% endif %}
+
 {% endblock %}
